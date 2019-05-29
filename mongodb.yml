@@ -1,0 +1,44 @@
+##########################################################################
+# 部署配置文件(base)
+# 本配置文件(xx.yml)中的变量(${xxx})是从同级目录下的.env文件中读取的
+##########################################################################
+# compose支持的版本2
+version: "2"
+services:
+  # mongodb
+  mongodb:
+    image: ${IMAGE_MONGODB}
+    container_name: "mongodb.${PRODUCT_NAME}.${COMPANY_NAME}"
+    hostname: "mongodb.${PRODUCT_NAME}.${COMPANY_NAME}"
+    restart: "always"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mongo/data:/data/db:rw
+    network_mode: "host"
+    # cap_add:
+    #   - NET_ADMIN
+    #   - SYS_ADMIN
+  # mongo-express
+  mongo-express:
+    image: ${IMAGE_MONGO_EXPRESS}
+    container_name: "mongo-express.${PRODUCT_NAME}.${COMPANY_NAME}"
+    hostname: "mongo-express.${PRODUCT_NAME}.${COMPANY_NAME}"
+    restart: "always"
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_SERVER=127.0.0.1
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_BASICAUTH_USERNAME=mongo
+      - ME_CONFIG_BASICAUTH_PASSWORD=mongo123
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: "host"
+    # cap_add:
+    #   - NET_ADMIN
+    #   - SYS_ADMIN
