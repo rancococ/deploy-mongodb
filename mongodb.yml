@@ -16,7 +16,10 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=admin123
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mongo/data:/data/db:rw
+      - ./volume/mongodb/conf/mongod.conf:/etc/mongo/mongod.conf:ro
+      - ./volume/mongodb/data:/data/db:rw
+      - ./volume/mongodb/logs:/var/log/mongodb:rw
+    command: "--config /etc/mongo/mongod.conf"
     network_mode: "host"
     extra_hosts:
       - "mongodb.${PRODUCT_NAME}.${COMPANY_NAME}:${HOST_IP}"
