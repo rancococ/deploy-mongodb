@@ -18,6 +18,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /mongo/data:/data/db:rw
     network_mode: "host"
+    extra_hosts:
+      - "mongodb.${PRODUCT_NAME}.${COMPANY_NAME}:${HOST_IP}"
     # cap_add:
     #   - NET_ADMIN
     #   - SYS_ADMIN
@@ -39,6 +41,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
     network_mode: "host"
+    extra_hosts:
+      - "mongo-express.${PRODUCT_NAME}.${COMPANY_NAME}:${HOST_IP}"
     # cap_add:
     #   - NET_ADMIN
     #   - SYS_ADMIN
