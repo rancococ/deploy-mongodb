@@ -25,8 +25,8 @@ services:
     # cap_add:
     #   - NET_ADMIN
     #   - SYS_ADMIN
-  # mongo-express
-  mongo-express:
+  # express
+  express:
     image: "${IMAGE_EXPRESS}"
     container_name: "express.${PRODUCT_NAME}.${COMPANY_NAME}"
     hostname: "express.${PRODUCT_NAME}.${COMPANY_NAME}"
