@@ -19,7 +19,7 @@ services:
       - ./volume/mongodb/conf/mongod.conf:/etc/mongo/mongod.conf:ro
       - ./volume/mongodb/data:/data/db:rw
       - ./volume/mongodb/logs:/var/log/mongodb:rw
-    command: "--config /etc/mongo/mongod.conf"
+    command: "--config /etc/mongo/mongod.conf --bind_ip 0.0.0.0 --port 27017"
     network_mode: "host"
     extra_hosts:
       - "mongodb.${PRODUCT_NAME}.${COMPANY_NAME}:${HOST_IP}"
@@ -41,6 +41,8 @@ services:
       - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
       - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
       - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
+      - VCAP_APP_HOST=0.0.0.0
+      - VCAP_APP_PORT=8081
     volumes:
       - /etc/localtime:/etc/localtime:ro
     network_mode: "host"
