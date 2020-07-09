@@ -7,13 +7,12 @@ version: "2"
 services:
   # mongodb
   mongodb:
-    image: ${IMAGE_REPO}/${IMAGE_MONGODB}
+    image: "${IMAGE_MONGODB}"
     container_name: "mongodb.${PRODUCT_NAME}.${COMPANY_NAME}"
     hostname: "mongodb.${PRODUCT_NAME}.${COMPANY_NAME}"
     restart: "always"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    env_file:
+      - ./mongodb.env
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./volume/mongodb/conf/mongod.conf:/etc/mongo/mongod.conf:ro
@@ -28,21 +27,12 @@ services:
     #   - SYS_ADMIN
   # mongo-express
   mongo-express:
-    image: ${IMAGE_REPO}/${IMAGE_EXPRESS}
+    image: "${IMAGE_EXPRESS}"
     container_name: "express.${PRODUCT_NAME}.${COMPANY_NAME}"
     hostname: "express.${PRODUCT_NAME}.${COMPANY_NAME}"
     restart: "always"
-    environment:
-      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
-      - ME_CONFIG_MONGODB_SERVER=127.0.0.1
-      - ME_CONFIG_MONGODB_PORT=27017
-      - ME_CONFIG_BASICAUTH_USERNAME=mongo
-      - ME_CONFIG_BASICAUTH_PASSWORD=mongo123
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
-      - VCAP_APP_HOST=0.0.0.0
-      - VCAP_APP_PORT=8081
+    env_file:
+      - ./express.env
     volumes:
       - /etc/localtime:/etc/localtime:ro
     network_mode: "host"
